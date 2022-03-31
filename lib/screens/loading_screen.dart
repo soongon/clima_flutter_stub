@@ -2,6 +2,7 @@ import 'package:clima_flutter_stub/screens/location_screen.dart';
 import 'package:clima_flutter_stub/services/location.dart';
 import 'package:clima_flutter_stub/services/networking.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -38,9 +39,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: null,
+        child: SpinKitFadingCircle(
+          color: Colors.white,
+          size: 70.0,
+        ),
       ),
     );
   }
