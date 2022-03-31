@@ -1,4 +1,5 @@
 import 'package:clima_flutter_stub/screens/city_screen.dart';
+import 'package:clima_flutter_stub/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:clima_flutter_stub/utilities/constants.dart';
 
@@ -14,20 +15,26 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
 
+  WeatherModel model = WeatherModel();
+
   late int temperature;
-  late int condition;
-  late String cityName;
+  late String conditionIcon;
+  late String message;
+
+  void updateUi({required weatherData}) {
+
+    setState(() {
+      temperature = weatherData['main']['temp'].toInt();
+      conditionIcon = model.getWeatherIcon(weatherData['weather'][0]['id']);
+      message = '${model.getMessage(temperature)} in ${weatherData['name']}!';
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     var weatherJsonData = widget.weatherData;
-    condition = weatherJsonData['weather'][0]['id'];
-    temperature = weatherJsonData['main']['temp'].toInt();
-    cityName = weatherJsonData['name'];
-    print(condition);
-    print(temperature);
-    print(cityName);
+    updateUi(weatherData: weatherJsonData);
   }
   @override
   Widget build(BuildContext context) {
@@ -51,8 +58,13 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
+                    onPressed: () async {
+                      // 1. weather 사이트로 다시 데이터를 요청
+                      var weatherData = await model.getCurrentWeather();
+                      print(weatherData);
+                      // 2. 가져온 데이터로 state 값을 갱신 --> 화면이 리빌드.
+                      updateUi(weatherData: weatherData);
+                      print('update ok..');
                     },
                     child: const Icon(
                       Icons.near_me,
@@ -82,16 +94,16 @@ class _LocationScreenState extends State<LocationScreen> {
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      conditionIcon,
                       style: kConditionTextStyle,
                     ),
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(right: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  message,
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),

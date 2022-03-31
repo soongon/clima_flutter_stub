@@ -1,4 +1,19 @@
+import 'package:clima_flutter_stub/services/location.dart';
+import 'package:clima_flutter_stub/services/networking.dart';
+
 class WeatherModel {
+
+  Future<dynamic> getCurrentWeather() async {
+    LocationHelper locationHelper = LocationHelper();
+    await locationHelper.getCurrentLocation();
+    ApiHelper apiHelper = ApiHelper();
+    var weatherData = await apiHelper.getWeatherDataWithLocation(
+      lat: locationHelper.latitude,
+      lon: locationHelper.longitude,
+    );
+    return weatherData;
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
