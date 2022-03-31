@@ -3,6 +3,12 @@ import 'package:clima_flutter_stub/services/networking.dart';
 
 class WeatherModel {
 
+  Future<dynamic> getWeatherWithCityName({required String cityName}) async {
+    ApiHelper apiHelper = ApiHelper();
+    var weatherData = await apiHelper.getWeatherDataWithCityName(cityName: cityName);
+    return weatherData;
+  }
+
   Future<dynamic> getCurrentWeather() async {
     LocationHelper locationHelper = LocationHelper();
     await locationHelper.getCurrentLocation();
