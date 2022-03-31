@@ -23,10 +23,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
           lat: locationHelper.latitude,
           lon: locationHelper.longitude,
         );
-    print(weatherData);
+    // print(weatherData);
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const LocationScreen()),
+      MaterialPageRoute(builder: (context) {
+        return LocationScreen(weatherData: weatherData);
+      }),
     );
   }
 
