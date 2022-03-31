@@ -1,3 +1,4 @@
+import 'package:clima_flutter_stub/screens/city_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clima_flutter_stub/utilities/constants.dart';
 
@@ -26,19 +27,26 @@ class _LocationScreenState extends State<LocationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+            children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CityScreen()),
+                      );
+                    },
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
